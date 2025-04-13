@@ -1,0 +1,84 @@
+const express = require('express');
+const User = require('../models/User');
+const jwt = require('jsonwebtoken');
+const { protect } = require('../middleware/authMiddleware');
+const router = express.Router();
+
+// Register route
+router.post('/register', async (req, res) => {
+  const { name, email, password } = req.body;
+  try {
+    let user = await User.findOne({ email });
+    if (user) return res.status(400).json({ message: 'User already exists' });
+
+    user = new User({ name, email, password });
+    await user.save();
+
+    const payload = {
+      user: {
+        id: user._id,
+        role: user.role,
+      },
+    };
+
+    jwt.sign(
+      payload,
+      process.env.JWT_SECRET,
+      { expiresIn: '60h' },
+      (err, token) => {
+        if (err) throw err;
+        res.status(200).json({ user, token });
+      }
+    );
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Server error in register');
+  }
+});
+
+// Login route
+router.post('/login', async (req, res) => {
+  const { email, password } = req.body; // Fixed `post` to `password`
+
+  try {
+    let user = await User.findOne({ email });
+    if (!user) return res.status(400).json({ message: 'Invalid Credentials' });
+
+    // Compare password using bcrypt
+    const isMatch = await user.matchPassword(password);
+    if (!isMatch)
+      return res.status(400).json({ message: 'Invalid Credentials' });
+
+    const payload = {
+      user: {
+        id: user._id,
+        role: user.role,
+      },
+    };
+
+    jwt.sign(
+      payload,
+      process.env.JWT_SECRET,
+      { expiresIn: '60h' },
+      (err, token) => {
+        if (err) throw err;
+        res.status(200).json({ user, token });
+      }
+    );
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Server error in login');
+  }
+});
+
+// router get /api/user/profile
+//@descs get logged in user's profile (Protected router)
+//access private
+
+router.get('/profile'),
+  protect,
+  async (req, res) => {
+    res.json(req.user);
+  };
+
+module.exports = router;
