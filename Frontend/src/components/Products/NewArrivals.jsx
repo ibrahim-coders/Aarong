@@ -1,5 +1,5 @@
 import { FiChevronLeft, FiChevronRight } from 'react-icons/fi';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import Glide from '@glidejs/glide';
 import { Link } from 'react-router-dom';
 
@@ -65,6 +65,8 @@ const NewArrivals = () => {
       slider.destroy();
     };
   }, []);
+
+  const [newArrivals, setNewArrivals] = useState([]);
 
   return (
     <div className="glide-01 relative w-full">
