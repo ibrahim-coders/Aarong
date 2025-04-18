@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-// ✅ Fetch all orders
+//  Fetch all orders
 export const fetchAllOrders = createAsyncThunk(
   'adminOrder/fetchAllOrders',
   async (_, { rejectWithValue }) => {
@@ -21,7 +21,7 @@ export const fetchAllOrders = createAsyncThunk(
   }
 );
 
-// ✅ Update order status
+//  Update order status
 export const updateOrdersStatus = createAsyncThunk(
   'adminOrder/updateOrdersStatus',
   async ({ id, status }, { rejectWithValue }) => {
@@ -42,7 +42,7 @@ export const updateOrdersStatus = createAsyncThunk(
   }
 );
 
-// ✅ Delete an order
+//  Delete an order
 export const deleteOrder = createAsyncThunk(
   'adminOrder/deleteOrder',
   async ({ id }, { rejectWithValue }) => {
@@ -62,7 +62,7 @@ export const deleteOrder = createAsyncThunk(
   }
 );
 
-// ✅ Initial state
+//  Initial state
 const initialState = {
   orders: [],
   totalOrders: 0,
@@ -71,7 +71,7 @@ const initialState = {
   error: null,
 };
 
-// ✅ Create slice
+//  Create slice
 const adminOrderSlice = createSlice({
   name: 'adminOrder',
   initialState,

@@ -18,11 +18,11 @@ const products = [
     gender: 'Men',
     images: [
       {
-        url: 'https://picsum.photos/500/500?random=39',
+        url: 'https://i.ibb.co/9mgtkRs1/AR-1164-4216-200-2.webp',
         altText: 'Classic Oxford Button-Down Shirt Front View',
       },
       {
-        url: 'https://picsum.photos/500/500?random=40',
+        url: 'https://i.ibb.co/S45dvRdf/AR-1164-4216-200-3.webp',
         altText: 'Classic Oxford Button-Down Shirt Back View',
       },
     ],
@@ -46,11 +46,11 @@ const products = [
     gender: 'Men',
     images: [
       {
-        url: 'https://picsum.photos/500/500?random=41',
+        url: 'https://i.ibb.co/ycW64DGZ/Gibson-Les-Paul-Tee-Heather-Olive-Small-Gibson-121812069.webp',
         altText: 'Slim-Fit Stretch Shirt Front View',
       },
       {
-        url: 'https://picsum.photos/500/500?random=42',
+        url: 'https://i.ibb.co/Hfz39Mss/Gibson-Explorer-Tee-Black-Medium-Gibson-121811132.webp',
         altText: 'Slim-Fit Stretch Shirt Back View',
       },
     ],

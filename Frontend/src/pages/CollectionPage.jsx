@@ -3,15 +3,29 @@ import { FaFilter } from 'react-icons/fa';
 import FilterSidbar from '../components/Products/FilterSidbar';
 import SortOptions from '../components/Products/SortOptions';
 import ProductGrid from '../components/Products/ProductGrid';
+import { useParams, useSearchParams } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchProductsByFilters } from '../Redux/slice/productsSlice';
+import Loading from '../components/Common/Loading';
 
 const CollectionPage = () => {
-  const [products, setProducts] = useState([]);
+  const { collection } = useParams();
+
+  const [searchParams] = useSearchParams();
+  const dispatch = useDispatch();
+
+  const { products, loading, error } = useSelector(state => state.products);
+  console.log(products);
   const sidebarRef = useRef(null);
   const [isSidebarOpen, setSidebarOpen] = useState(false);
-
+  const queryParams = Object.fromEntries([...searchParams]);
   const toggleSidebar = () => {
     setSidebarOpen(!isSidebarOpen);
   };
+
+  useEffect(() => {
+    dispatch(fetchProductsByFilters({ collection, ...queryParams }));
+  }, [dispatch, collection, queryParams]);
 
   const handleClickOutside = e => {
     if (sidebarRef.current && !sidebarRef.current.contains(e.target)) {
@@ -26,93 +40,9 @@ const CollectionPage = () => {
     };
   }, []);
 
-  useEffect(() => {
-    setTimeout(() => {
-      const similarProducts = [
-        {
-          _id: 1,
-          name: 'Casual Shirt',
-          price: 100,
-          images: [
-            {
-              url: 'https://images.unsplash.com/photo-1523381210434-271e8be1f52b?auto=format&fit=crop&w=1770&q=80',
-            },
-          ],
-        },
-        {
-          _id: 2,
-          name: 'Denim Jacket',
-          price: 150,
-          images: [
-            {
-              url: 'https://images.unsplash.com/photo-1523381210434-271e8be1f52b?auto=format&fit=crop&w=1770&q=80',
-            },
-          ],
-        },
-        {
-          _id: 3,
-          name: 'Hoodie',
-          price: 90,
-          images: [
-            {
-              url: 'https://images.unsplash.com/photo-1523381210434-271e8be1f52b?auto=format&fit=crop&w=1770&q=80',
-            },
-          ],
-        },
-        {
-          _id: 4,
-          name: 'T-Shirt',
-          price: 50,
-          images: [
-            {
-              url: 'https://images.unsplash.com/photo-1523381210434-271e8be1f52b?auto=format&fit=crop&w=1770&q=80',
-            },
-          ],
-        },
-        {
-          _id: 5,
-          name: 'T-Shirt',
-          price: 50,
-          images: [
-            {
-              url: 'https://images.unsplash.com/photo-1523381210434-271e8be1f52b?auto=format&fit=crop&w=1770&q=80',
-            },
-          ],
-        },
-        {
-          _id: 6,
-          name: 'T-Shirt',
-          price: 50,
-          images: [
-            {
-              url: 'https://images.unsplash.com/photo-1523381210434-271e8be1f52b?auto=format&fit=crop&w=1770&q=80',
-            },
-          ],
-        },
-        {
-          _id: 7,
-          name: 'T-Shirt',
-          price: 50,
-          images: [
-            {
-              url: 'https://images.unsplash.com/photo-1523381210434-271e8be1f52b?auto=format&fit=crop&w=1770&q=80',
-            },
-          ],
-        },
-        {
-          _id: 8,
-          name: 'T-Shirt',
-          price: 50,
-          images: [
-            {
-              url: 'https://images.unsplash.com/photo-1523381210434-271e8be1f52b?auto=format&fit=crop&w=1770&q=80',
-            },
-          ],
-        },
-      ];
-      setProducts(similarProducts);
-    }, 1000);
-  }, []);
+  // if (loading) return <Loading />;
+
+  if (error) return <p>{error}</p>;
 
   return (
     <div className="flex flex-col lg:flex-row">

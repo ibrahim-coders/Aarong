@@ -31,7 +31,7 @@ export const fetchProductsByFilters = createAsyncThunk(
     if (brand) query.append('brand', brand);
     if (limit) query.append('limit', limit);
     const response = await axios.get(
-      `${import.meta.env.VITE_API_URL}/api/products?${query.toString()}`
+      `${import.meta.env.VITE_API_URL}/products?${query.toString()}`
     );
     return response.data;
   }
@@ -41,7 +41,7 @@ export const fetchProductDetails = createAsyncThunk(
   'products/fetchProductDetails',
   async id => {
     const response = await axios.get(
-      `${import.meta.env.VITE_API_URL}/api/products/${id}`
+      `${import.meta.env.VITE_API_URL}/products/${id}`
     );
     return response.data;
   }
@@ -67,7 +67,7 @@ export const fetchSimilarProducts = createAsyncThunk(
   'products/fetchSimilarProducts',
   async ({ id }) => {
     const response = await axios.get(
-      `${import.meta.env.VITE_API_URL}/api/products/similar/${id}`
+      `${import.meta.env.VITE_API_URL}/products/similar/${id}`
     );
     return response.data;
   }
@@ -148,15 +148,27 @@ const productsSlice = createSlice({
       })
       .addCase(updateProduct.fulfilled, (state, action) => {
         state.loading = false;
-        state.updateProduct = action.payload;
+        const updatedProduct = action.payload;
         const index = state.products.findIndex(
-          product => product._id === updateProduct._id
+          product => product._id === updatedProduct._id
         );
         if (index !== -1) {
-          state.products[index] = updateProduct;
+          state.products[index] = updatedProduct;
         }
       })
       .addCase(updateProduct.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message;
+      })
+      .addCase(fetchSimilarProducts.pending, state => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(fetchSimilarProducts.fulfilled, (state, action) => {
+        state.loading = false;
+        state.similarProducts = action.payload;
+      })
+      .addCase(fetchSimilarProducts.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message;
       });

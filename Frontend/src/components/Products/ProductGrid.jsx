@@ -1,6 +1,11 @@
 import { Link } from 'react-router-dom';
+import Loading from '../Common/Loading';
 
-const ProductGrid = ({ products }) => {
+const ProductGrid = ({ products, loading, error }) => {
+  if (loading) {
+    return <Loading />;
+  }
+  if (error) return <p>{error}</p>;
   console.log(products);
   return (
     <>

@@ -39,19 +39,19 @@ const OrderSchema = new mongoose.Schema(
     orderItems: [orderItemSchema],
     shippingAddress: {
       address: {
-        type: String, // ✅ `string` → `String`
+        type: String,
         required: true,
       },
       city: {
-        type: String, // ✅ `string` → `String`
+        type: String,
         required: true,
       },
       postalCode: {
-        type: String, // ✅ `string` → `String`
+        type: String,
         required: true,
       },
       country: {
-        type: String, // ✅ `string` → `String`
+        type: String,
         required: true,
       },
     },
