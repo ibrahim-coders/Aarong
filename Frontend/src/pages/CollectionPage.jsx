@@ -10,22 +10,22 @@ import Loading from '../components/Common/Loading';
 
 const CollectionPage = () => {
   const { collection } = useParams();
-
   const [searchParams] = useSearchParams();
   const dispatch = useDispatch();
-
   const { products, loading, error } = useSelector(state => state.products);
-  console.log(products);
+
   const sidebarRef = useRef(null);
   const [isSidebarOpen, setSidebarOpen] = useState(false);
+
   const queryParams = Object.fromEntries([...searchParams]);
+
   const toggleSidebar = () => {
     setSidebarOpen(!isSidebarOpen);
   };
 
   useEffect(() => {
     dispatch(fetchProductsByFilters({ collection, ...queryParams }));
-  }, [dispatch, collection, queryParams]);
+  }, [dispatch, collection, JSON.stringify(queryParams)]); //
 
   const handleClickOutside = e => {
     if (sidebarRef.current && !sidebarRef.current.contains(e.target)) {
@@ -39,8 +39,6 @@ const CollectionPage = () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, []);
-
-  // if (loading) return <Loading />;
 
   if (error) return <p>{error}</p>;
 
@@ -66,7 +64,7 @@ const CollectionPage = () => {
       <div className="flex-grow p-4">
         <h2 className="text-2xl uppercase mb-4">All Collection</h2>
         <SortOptions />
-        <ProductGrid products={products} />
+        <ProductGrid products={products} loading={loading} error={error} />
       </div>
     </div>
   );

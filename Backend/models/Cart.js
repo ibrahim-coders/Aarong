@@ -1,6 +1,8 @@
+// models/Cart.js
+
 const mongoose = require('mongoose');
 
-const cartItemsSchema = new mongoose.Schema(
+const cartItemSchema = new mongoose.Schema(
   {
     productId: {
       type: mongoose.Schema.Types.ObjectId,
@@ -9,33 +11,30 @@ const cartItemsSchema = new mongoose.Schema(
     },
     name: String,
     image: String,
-    price: String,
+    price: Number,
     size: String,
     color: String,
-    quantity: {
-      type: Number,
-      default: 1,
-    },
+    quantity: Number,
   },
   { _id: false }
 );
-const cartSchema = new mongoose.Schema(
-  {
-    user: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'User',
-    },
-    guestId: {
-      type: String,
-    },
-    products: { cartItemsSchema },
-    totalPrice: {
-      type: Number,
-      required: true,
-      default: 0,
-    },
+
+const cartSchema = new mongoose.Schema({
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
   },
-  { timestamps: true }
-);
+  guestId: {
+    type: String,
+  },
+  products: {
+    type: [cartItemSchema], // ✅ Must be an array
+    default: [],
+  },
+  totalPrice: {
+    type: Number,
+    default: 0,
+  },
+});
 
 module.exports = mongoose.model('Cart', cartSchema);

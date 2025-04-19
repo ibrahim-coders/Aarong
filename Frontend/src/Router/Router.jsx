@@ -16,6 +16,7 @@ import EditProductPage from '../components/Admin/EditProductPage';
 import OrderManagement from '../components/Admin/OrderManagement';
 import { Provider } from 'react-redux';
 import store from '../Redux/store';
+import OrderConfirmationPage from '../components/Cart/OrderConfirmationPage';
 const Router = () => {
   return (
     <Provider store={store}>
@@ -28,7 +29,7 @@ const Router = () => {
           <Route path="/" element={<UserLayout />}>
             <Route index element={<Home />} />
             <Route path="login" element={<Login />} />
-            <Route path="Register" element={<Register />} />
+            <Route path="register" element={<Register />} />
             <Route path="profile" element={<Profile />} />
             <Route
               path="collections/:collection"
@@ -37,6 +38,10 @@ const Router = () => {
 
             <Route path="product/:id" element={<ProductDetails />} />
             <Route path="checkout" element={<Checkout />} />
+            <Route
+              path="order-confirmation"
+              element={<OrderConfirmationPage />}
+            />
           </Route>
 
           {/* Add other routes here */}

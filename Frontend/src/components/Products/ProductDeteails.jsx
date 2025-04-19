@@ -70,7 +70,7 @@ const ProductDetails = ({ productId }) => {
 
   if (loading) return <Loading />;
   if (error) return <p>{error}</p>;
-
+  console.log(selectedProduct);
   return (
     <div className="mt-10 px-6">
       {similarProducts && (
@@ -92,11 +92,11 @@ const ProductDetails = ({ productId }) => {
               </div>
 
               {/* Main Product Image */}
-              <div className="md:w-1/2 mb-4">
+              <div className="md:w-1/2 mb-4 h-[550px]">
                 <img
                   src={mainImage}
                   alt="Main Product"
-                  className="w-full h-auto object-cover rounded-lg"
+                  className="w-full  h-full object-center rounded-lg"
                 />
               </div>
 
@@ -119,10 +119,10 @@ const ProductDetails = ({ productId }) => {
                   {selectedProduct?.name}
                 </h1>
                 <p className="text-lg text-gray-500 mb-1 line-through">
-                  ${selectedProduct?.originalPrice}
+                  ${selectedProduct?.price}
                 </p>
                 <p className="text-xl text-gray-800 font-bold mb-2">
-                  ${selectedProduct?.price}
+                  ${selectedProduct?.discountPrice}
                 </p>
                 <p className="text-gray-600 mb-4">
                   {selectedProduct?.description}

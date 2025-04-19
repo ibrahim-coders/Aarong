@@ -61,11 +61,11 @@ const NewArrivals = () => {
         <ul className="relative flex w-full overflow-hidden p-0">
           {newArrivals.map(product => (
             <li key={product._id} className="relative mx-2">
-              <div className="h-[400px]">
+              <div className="h-[500px] items-center">
                 <img
                   src={product.images?.[0]?.url}
                   alt={product.name || 'No name'}
-                  className="w-full h-full object-center  rounded-md"
+                  className="w-full h-full object-contain    rounded-md"
                 />
               </div>
               <div className="absolute bottom-0 left-0 right-0 bg-black/50 text-white p-4 rounded-b-lg">

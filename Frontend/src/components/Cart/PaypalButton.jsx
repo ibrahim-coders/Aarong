@@ -1,9 +1,9 @@
-import { PayPalScriptProvider, PayPalButtons } from '@paypal/react-paypal-js';
+import { PayPalButtons, PayPalScriptProvider } from '@paypal/react-paypal-js';
 
 const PaypalButton = ({ amount, onSuccess, onError }) => {
   return (
     <PayPalScriptProvider
-      options={{ clientId: import.meta.env.VITE_PAYPAL_CLIENT_ID }} // Ensure this environment variable is properly set
+      options={{ clientId: import.meta.env.VITE_PAYPAL_CLIENT_ID }}
     >
       <PayPalButtons
         style={{ layout: 'vertical' }}

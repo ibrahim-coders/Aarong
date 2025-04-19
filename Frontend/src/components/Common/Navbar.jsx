@@ -4,11 +4,17 @@ import { IoMdMenu, IoMdClose } from 'react-icons/io';
 import { useState } from 'react';
 import SearchBar from './SearchBar';
 import CartDrawer from '../Layout/CartDrawer';
+import { useSelector } from 'react-redux';
 
 const Navbar = () => {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [navDrawerOpen, setNavDrawerOpen] = useState(false);
+  const { cart } = useSelector(state => state.cart);
 
+  const cartItemCount = cart?.products?.reduce(
+    (total, product) => total + product.quantity,
+    0
+  );
   const toggleCartDrawer = () => setDrawerOpen(!drawerOpen);
   const toggleNavDrawer = () => setNavDrawerOpen(!navDrawerOpen);
 
@@ -23,25 +29,25 @@ const Navbar = () => {
         {/* Desktop Navigation */}
         <div className="hidden md:flex space-x-4">
           <NavLink
-            to="/collections/all"
+            to="/collections/all?gender=Men"
             className="text-gray-700 hover:text-black text-sm font-medium uppercase"
           >
             Men
           </NavLink>
           <NavLink
-            to="/women"
+            to="/collections/all?gender=Women"
             className="text-gray-700 hover:text-black text-sm font-medium uppercase"
           >
             Women
           </NavLink>
           <NavLink
-            to="/top-wear"
+            to="/collections/all?category=Top Wear"
             className="text-gray-700 hover:text-black text-sm font-medium uppercase"
           >
             Top Wear
           </NavLink>
           <NavLink
-            to="/bottom-wear"
+            to="/collections/all?category=Bottom Wear"
             className="text-gray-700 hover:text-black text-sm font-medium uppercase"
           >
             Bottom Wear
@@ -66,9 +72,11 @@ const Navbar = () => {
             className="relative hover:text-black cursor-pointer"
           >
             <HiOutlineShoppingBag className="h-6 w-6 text-gray-700" />
-            <span className="absolute -top-1 -right-2 bg-orange-600 text-white text-xs rounded-full px-2 flex items-center justify-center">
-              3
-            </span>
+            {cartItemCount > 0 && (
+              <span className="absolute -top-1 -right-2 bg-orange-600 text-white text-xs rounded-full px-2 flex items-center justify-center">
+                {cartItemCount}
+              </span>
+            )}
           </button>
 
           {/* Search Bar */}
@@ -108,31 +116,31 @@ const Navbar = () => {
 
         {/* Mobile Menu Links */}
         <div>
-          <h2 className="text-xl font-semibold mb-4">Menu</h2>
           <ul className="flex flex-col space-y-4 px-6 text-lg font-medium">
+            <h2 className="text-xl font-semibold text-orange-600 mb-4">Menu</h2>
             <NavLink
-              to="/men"
+              to="/collections/all?gender=Men"
               onClick={toggleNavDrawer}
               className="text-gray-700 hover:text-black"
             >
               Men
             </NavLink>
             <NavLink
-              to="/women"
+              to="/collections/all?gender=Women"
               onClick={toggleNavDrawer}
               className="text-gray-700 hover:text-black"
             >
               Women
             </NavLink>
             <NavLink
-              to="/top-wear"
+              to="/collections/all?category=Top Wear"
               onClick={toggleNavDrawer}
               className="text-gray-700 hover:text-black"
             >
               Top Wear
             </NavLink>
             <NavLink
-              to="/bottom-wear"
+              to="/collections/all?category=Bottom Wear"
               onClick={toggleNavDrawer}
               className="text-gray-700 hover:text-black"
             >

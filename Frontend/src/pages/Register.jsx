@@ -1,20 +1,44 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import loginImage from '../assets/women-regiser.jpg';
-import { Link } from 'react-router-dom';
+import { Link, redirect, useLocation, useNavigate } from 'react-router-dom';
 import { registerUser } from '../Redux/slice/authSlice';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'sonner';
+import { mergeCart } from '../Redux/slice/cartSlice';
 const Register = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const { user, guestId } = useSelector(state => state.auth);
+  const { cart } = useSelector(state => state.cart);
+
+  // get redireact parameter and chack if it 's checkout or somthing else
+
+  const redireact = new URLSearchParams(location.search).get('redirect') || '/';
+
+  const isChackoutRedirect = redireact.includes('checkout');
+
+  useEffect(() => {
+    if (user) {
+      if (cart?.products.length > 0 && guestId) {
+        dispatch(mergeCart({ guestId, user })).then(() => {
+          navigate(isChackoutRedirect ? '/checkout' : '/');
+        });
+      } else {
+        navigate(isChackoutRedirect);
+      }
+    }
+  }, [user, guestId, cart, navigate, isChackoutRedirect, dispatch]);
 
   const handleSubmit = e => {
     e.preventDefault();
     dispatch(registerUser({ name, email, password }));
+    navigate(isChackoutRedirect ? '/checkout' : '/');
     toast.success('Register successfully!');
-    console.log({ name, email, password });
   };
 
   return (
@@ -87,13 +111,16 @@ const Register = () => {
                 type="submit"
                 className="w-full mt-2 p-3 bg-black text-white font-semibold rounded-md hover:bg-gray-950 "
               >
-                Register
+                Sign up
               </button>
             </div>
           </form>
           <p className="mt-6 text-center text-sm">
-            Don't have an account?{' '}
-            <Link to="/login" className="text-orange-600">
+            Don't have an account?
+            <Link
+              to={`/login?redirect=${encodeURIComponent(redirect)}`}
+              className="text-orange-600"
+            >
               Login
             </Link>
           </p>

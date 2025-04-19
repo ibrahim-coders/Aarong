@@ -24,9 +24,9 @@ router.post('/', async (req, res) => {
     }
 
     let cart = await getCart(userId, guestId);
-
+    console.log('cart.products:', cart?.products);
     if (cart) {
-      const productIndex = cart.products.findIndex(
+      const productIndex = cart?.products.findIndex(
         p =>
           p.productId.toString() === productId &&
           p.size === size &&

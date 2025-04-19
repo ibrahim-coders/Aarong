@@ -12,6 +12,7 @@ const orderRouter = require('./routers/orderRoutes');
 const uploadeRouter = require('./routers/uploadeRouters');
 const adminRouter = require('./routers/adminRouters');
 const productsAdminRouter = require('./routers/productAdminRouters');
+const Cart = require('./models/Cart');
 
 // ✅ Import Product model
 const Product = require('./models/Products');
@@ -33,6 +34,15 @@ connectDB();
 app.get('/', (req, res) => {
   res.send('Welcome To Aarong API');
 });
+
+const getCart = async (userId, guestId) => {
+  if (userId) {
+    return await Cart.findOne({ user: userId });
+  } else if (guestId) {
+    return await Cart.findOne({ guestId });
+  }
+  return null;
+};
 
 // Get all products with optional query filters
 app.get('/products', async (req, res) => {
@@ -130,7 +140,7 @@ app.get('/best-seller', async (req, res) => {
 app.get('/new-arrivals', async (req, res) => {
   try {
     const newArrivals = await Product.find().sort({ createdAt: -1 }).limit(10);
-    console.log(newArrivals);
+
     res.json(newArrivals);
   } catch (error) {
     console.error('New Arrivals Error:', error.message);

@@ -38,7 +38,7 @@ const Home = () => {
 
     fetchBestSeller();
   }, [dispatch]);
-
+  console.log(bestSellerProduct);
   return (
     <div>
       <Hero />
@@ -51,11 +51,11 @@ const Home = () => {
             Product Collection
           </h2>
 
-          {bestSellerProduct ? (
+          {/* {bestSellerProduct ? (
             <ProductDetails productId={bestSellerProduct._id} />
           ) : (
             <Loading />
-          )}
+          )} */}
 
           <p className="mt-4 max-w-md text-gray-500">
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Itaque

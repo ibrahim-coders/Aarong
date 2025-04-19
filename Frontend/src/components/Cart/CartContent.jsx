@@ -1,21 +1,36 @@
 import { FaRegTrashAlt } from 'react-icons/fa';
+import { useDispatch } from 'react-redux';
+import {
+  removeFromCart,
+  updateCartItemQuantity,
+} from '../../Redux/slice/cartSlice';
 
-const CartContent = () => {
-  const cartProducts = [
-    {
-      id: 1,
-      name: 'T-shirt',
-      color: 'Black',
-      size: 'M',
-      quantity: 1,
-      price: 15,
-      image: 'https://via.placeholder.com/80',
-    },
-  ];
+const CartContent = ({ cart, userId, guestId }) => {
+  const dispatch = useDispatch();
 
+  const handleAddToCart = (productId, delta, quantity, size, color) => {
+    const newQuantity = quantity + delta;
+    if (newQuantity >= 1) {
+      dispatch(
+        updateCartItemQuantity({
+          productId,
+          quantity: newQuantity,
+          guestId,
+          userId,
+          size,
+          color,
+        })
+      );
+    }
+  };
+
+  const handleRemoveFromCart = (productId, size, color) => {
+    dispatch(removeFromCart({ productId, guestId, userId, size, color }));
+  };
+  console.log(cart);
   return (
     <div className="max-w-md mx-auto p-4 bg-white shadow-md rounded-lg">
-      {cartProducts.map((product, index) => (
+      {cart?.products.map((product, index) => (
         <div
           key={index}
           className="flex items-center justify-between py-4 border-b"
@@ -38,11 +53,33 @@ const CartContent = () => {
 
             {/* Quantity Controls */}
             <div className="flex items-center mt-2 gap-2">
-              <button className="border px-2 text-lg font-medium rounded hover:bg-gray-100">
+              <button
+                onClick={() =>
+                  handleAddToCart(
+                    product.productId,
+                    -1,
+                    product.quantity,
+                    product.size,
+                    product.color
+                  )
+                }
+                className="border px-2 text-lg font-medium rounded hover:bg-gray-100"
+              >
                 -
               </button>
               <span className="font-medium">{product.quantity}</span>
-              <button className="border px-2 text-lg font-medium rounded hover:bg-gray-100">
+              <button
+                onClick={() =>
+                  handleAddToCart(
+                    product.productId,
+                    1,
+                    product.quantity,
+                    product.size,
+                    product.color
+                  )
+                }
+                className="border px-2 text-lg font-medium rounded hover:bg-gray-100"
+              >
                 +
               </button>
             </div>
@@ -50,7 +87,15 @@ const CartContent = () => {
             {/* Price & Delete Button */}
             <div className="flex items-center justify-between mt-2">
               <p className="font-medium">${product.price.toLocaleString()}</p>
-              <button>
+              <button
+                onClick={() =>
+                  handleRemoveFromCart(
+                    product.productId,
+                    product.size,
+                    product.color
+                  )
+                }
+              >
                 <FaRegTrashAlt className="h-6 w-6 text-red-600 hover:text-red-800" />
               </button>
             </div>

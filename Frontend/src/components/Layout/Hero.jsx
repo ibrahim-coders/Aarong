@@ -48,13 +48,15 @@ const Hero = () => {
       <Slider {...settings}>
         {banners.map((banner, index) => (
           <div key={index} className="relative">
-            <img
-              src={banner.image}
-              alt={`Slide ${index + 1}`}
-              className="w-full h-[400px] md:h-[600px] object-cover  "
-            />
+            <div className="h-[450px] sm:h-[600px]">
+              <img
+                src={banner.image}
+                alt={`Slide ${index + 1}`}
+                className="w-full h-full object-center  "
+              />
+            </div>
 
-            <div className="absolute inset-0 flex items-center justify-center bg-black/50">
+            <div className="absolute inset-0 flex items-center justify-center ">
               <div className="text-center text-white px-6 lg:max-w-3xl">
                 <h1 className="text-4xl font-bold sm:text-5xl">
                   {banner.title}
