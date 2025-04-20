@@ -10,7 +10,7 @@ const Checkout = () => {
   const navigate = useNavigate();
   const [checkoutId, setCheckoutId] = useState(null);
   const dispatch = useDispatch();
-  const { cart, loading, error } = useSelector(state => state.cart);
+  const { cart, error } = useSelector(state => state.cart);
 
   const { user } = useSelector(state => state.auth);
 
@@ -96,7 +96,7 @@ const Checkout = () => {
       console.error(error);
     }
   };
-  if (loading) return <Loading />;
+
   if (error) return <p className="text-center">ERROR: {error}</p>;
 
   if (!cart || !cart.products || cart.products.length === 0) {
@@ -223,14 +223,12 @@ const Checkout = () => {
               </button>
             ) : (
               <div>
-                <h3 className="text-lg mb-4">
-                  Pay with PayPal
-                  <PaypalButton
-                    amount={cart.totalPrice}
-                    onSuccess={handlePaymentSuccess}
-                    onError={err => alert('Payment failed, please try again.')}
-                  />
-                </h3>
+                <h3 className="text-lg mb-4">Pay with PayPal</h3>
+                <PaypalButton
+                  amount={cart.totalPrice}
+                  onSuccess={handlePaymentSuccess}
+                  onError={err => alert('Payment failed, please try again.')}
+                />
               </div>
             )}
           </div>

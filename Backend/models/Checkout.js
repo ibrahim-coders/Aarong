@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 
+// 🛒 Single checkout item schema
 const checkoutItemsSchema = new mongoose.Schema(
   {
     productId: {
@@ -19,10 +20,13 @@ const checkoutItemsSchema = new mongoose.Schema(
       type: Number,
       required: true,
     },
+    size: String,
+    color: String,
   },
   { _id: false }
 );
 
+// 📦 Main checkout schema
 const checkoutSchema = new mongoose.Schema(
   {
     user: {
@@ -42,7 +46,7 @@ const checkoutSchema = new mongoose.Schema(
       },
       postalCode: {
         type: String,
-        required: true,
+        required: false,
       },
       country: {
         type: String,
@@ -66,7 +70,10 @@ const checkoutSchema = new mongoose.Schema(
       default: 'pending',
     },
     paymentDetails: {
-      type: mongoose.Schema.Types.Mixed,
+      type: mongoose.Schema.Types.Mixed, // Can be Stripe/PayPal or any object
+    },
+    paidAt: {
+      type: Date,
     },
     isFinalized: {
       type: Boolean,

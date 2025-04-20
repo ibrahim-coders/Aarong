@@ -1,24 +1,24 @@
-const checkout = {
-  _id: '12',
-  creacted: new Date(),
-  checkoutItems: [
-    {
-      producatId: '1',
-      name: 'Ali',
-      color: 'Black',
-      price: 140,
-      quantity: 2,
-      image: '',
-    },
-  ],
-  shippingAddress: {
-    address: '123 Fashion Street',
-    city: 'Dhaka',
-    country: 'Bangladesh',
-  },
-};
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { clearCart } from '../../Redux/slice/cartSlice';
 
 const OrderConfirmationPage = () => {
+  const dispatch = useDispatch();
+
+  const navigate = useNavigate();
+  const { checkout } = useSelector(state => state.checkout);
+
+  //clear the cart when the is comformed
+  useEffect(() => {
+    if (checkout && checkout._id) {
+      dispatch(clearCart());
+      localStorage.removeItem('cart');
+    } else {
+      navigate('/my-order');
+    }
+  }, [checkout, dispatch, navigate]);
+
   const totalAmount = checkout.checkoutItems.reduce(
     (acc, item) => acc + item.price * item.quantity,
     0

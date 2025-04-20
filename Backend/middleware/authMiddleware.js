@@ -9,13 +9,14 @@ const protect = async (req, res, next) => {
     req.headers.authorization.startsWith('Bearer')
   ) {
     try {
-      token.headers.authorization.split('Bearer')[1];
+      token = req.headers.authorization.split(' ')[1];
       const decoded = jwt.verify(token, process.env.JWT_SECRET);
-      req.user = await User.findById(decoded.user.id).select('-password');
+      req.user = await User.findById(decoded.id).select('-password');
+
       next();
     } catch (error) {
       console.error('Token verification failed', error);
-      resizeBy.status(401).json({ message: 'Not authorized ,token failed' });
+      res.status(401).json({ message: 'Not authorized, token failed' });
     }
   } else {
     res.status(401).json({ message: 'Not authorized, no token' });
@@ -23,7 +24,7 @@ const protect = async (req, res, next) => {
 };
 // admin
 const admin = (req, res, next) => {
-  if (req.user && req.user.role === 'admin') {
+  if (req.user && req.user?.role === 'admin') {
     next();
   } else {
     res.status(403).json({ massage: 'Not authorized an admin' });

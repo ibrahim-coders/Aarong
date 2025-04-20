@@ -7,7 +7,7 @@ const router = express.Router();
 // Get logged-in user's orders (Private)
 router.get('/my-orders', protect, async (req, res) => {
   try {
-    const orders = await Order.find({ user: req.user._id }).sort({
+    const orders = await Order.find({ user: req.user?._id }).sort({
       createdAt: -1,
     });
     res.json(orders);

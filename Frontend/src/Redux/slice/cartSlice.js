@@ -84,18 +84,17 @@ export const updateCartItemQuantity = createAsyncThunk(
 
 //remove item from cart
 
+// Remove item from cart
 export const removeFromCart = createAsyncThunk(
   'cart/removeFromCart',
-  async (
-    { productId, quantity, guestId, userId, size, color },
-    { rejectWithValue }
-  ) => {
+  async ({ productId, guestId, userId, size, color }, { rejectWithValue }) => {
     try {
-      const response = await axios.delete({
-        method: 'DELETE',
-        url: `${import.meta.env.VITE_API_URL}/api/cart`,
-        data: { productId, quantity, guestId, userId, size, color },
-      });
+      const response = await axios.delete(
+        `${import.meta.env.VITE_API_URL}/api/cart`,
+        {
+          data: { productId, guestId, userId, size, color },
+        }
+      );
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -185,13 +184,13 @@ const cartSlice = createSlice({
         state.error = null;
       })
       .addCase(removeFromCart.fulfilled, (state, action) => {
-        state.loading = true;
+        state.loading = false;
         state.cart = action.payload;
         saveCartStorage(action.payload);
       })
       .addCase(removeFromCart.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.payload?.message || 'Failed to remove items';
+        state.error = action.payload?.message || 'Failed to remove item';
       })
       .addCase(mergeCart.pending, state => {
         state.loading = true;

@@ -27,7 +27,7 @@ const CartContent = ({ cart, userId, guestId }) => {
   const handleRemoveFromCart = (productId, size, color) => {
     dispatch(removeFromCart({ productId, guestId, userId, size, color }));
   };
-  console.log(cart);
+
   return (
     <div className="max-w-md mx-auto p-4 bg-white shadow-md rounded-lg">
       {cart?.products.map((product, index) => (
@@ -83,25 +83,33 @@ const CartContent = ({ cart, userId, guestId }) => {
                 +
               </button>
             </div>
+          </div>
 
-            {/* Price & Delete Button */}
-            <div className="flex items-center justify-between mt-2">
-              <p className="font-medium">${product.price.toLocaleString()}</p>
-              <button
-                onClick={() =>
-                  handleRemoveFromCart(
-                    product.productId,
-                    product.size,
-                    product.color
-                  )
-                }
-              >
-                <FaRegTrashAlt className="h-6 w-6 text-red-600 hover:text-red-800" />
-              </button>
-            </div>
+          {/* Remove Item Button */}
+          <div className="ml-4">
+            <button
+              onClick={() =>
+                handleRemoveFromCart(
+                  product.productId,
+                  product.size,
+                  product.color
+                )
+              }
+              className="text-red-600 hover:text-red-800"
+            >
+              <FaRegTrashAlt className="w-5 h-5 cursor-pointer" />
+            </button>
           </div>
         </div>
       ))}
+
+      {/* Cart Total Price */}
+      <div className="mt-4 flex justify-between items-center">
+        <h4 className="font-semibold">Total:</h4>
+        <span className="font-medium text-xl">
+          ${cart?.totalPrice.toFixed(2)}
+        </span>
+      </div>
     </div>
   );
 };

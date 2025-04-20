@@ -24,7 +24,7 @@ router.post('/', async (req, res) => {
     }
 
     let cart = await getCart(userId, guestId);
-    console.log('cart.products:', cart?.products);
+
     if (cart) {
       const productIndex = cart?.products.findIndex(
         p =>
@@ -119,6 +119,8 @@ router.put('/', async (req, res) => {
 });
 
 // Delete a product from cart
+// Assuming Express.js and a Cart model (mongoose) for MongoDB
+
 router.delete('/', async (req, res) => {
   const { productId, size, color, guestId, userId } = req.body;
 

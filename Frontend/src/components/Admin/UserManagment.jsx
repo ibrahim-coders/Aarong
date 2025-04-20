@@ -1,14 +1,13 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { addUser, deleteUser, updateUser } from '../../Redux/slice/adminSlice';
 
 const UserManagment = () => {
-  const [users, setUsers] = useState([
-    {
-      _id: 1221,
-      name: 'John Doe',
-      email: 'abc@gmail.com',
-      role: 'admin',
-    },
-  ]);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { user } = useSelector(state => state.auth);
+  const { users, loading, error } = useSelector(state => state.admin);
 
   const [formData, setFormData] = useState({
     name: '',
@@ -17,36 +16,32 @@ const UserManagment = () => {
     role: 'customer',
   });
 
+  useEffect(() => {
+    if (!user || user.role !== 'admin') {
+      navigate('/');
+    }
+  }, [user, navigate]);
+
   const handleChange = e => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  // Handle form submission
   const handleSubmit = e => {
     e.preventDefault();
-    if (!formData.name || !formData.email || !formData.password) {
-      alert('Please fill out all fields.');
-      return;
-    }
-
-    setUsers([
-      ...users,
-      { name: formData.name, email: formData.email, role: formData.role },
-    ]);
+    dispatch(addUser(formData));
     setFormData({ name: '', email: '', password: '', role: 'customer' });
   };
 
-  // Handle Role Change
-  const handleRoleChanges = (index, newRole) => {
-    const updatedUsers = users.map((user, i) =>
-      i === index ? { ...user, role: newRole } : user
-    );
-    setUsers(updatedUsers);
-    console.log(updatedUsers);
+  const handleRoleChanges = (userId, newRole) => {
+    dispatch(updateUser({ id: userId, role: newRole }));
   };
-  const handleDeleteUser = id => {
-    console.log(id);
+
+  const handleDeleteUser = userId => {
+    if (window.confirm('Are you sure you want to delete this user?')) {
+      dispatch(deleteUser(userId));
+    }
   };
+
   return (
     <div className="max-w-3xl mx-auto p-6">
       <h2 className="text-2xl font-bold mb-4">User Management</h2>
@@ -102,7 +97,7 @@ const UserManagment = () => {
         </table>
       </div>
 
-      {/* User Form */}
+      {/* Add User Form */}
       <h3 className="text-xl font-semibold mb-2">Add New User</h3>
       <form onSubmit={handleSubmit} className="space-y-4">
         <div className="flex flex-col md:flex-row gap-4">
@@ -115,6 +110,7 @@ const UserManagment = () => {
               onChange={handleChange}
               placeholder="Enter name"
               className="w-full p-2 border rounded"
+              required
             />
           </div>
           <div className="w-full md:w-1/2">
@@ -126,6 +122,7 @@ const UserManagment = () => {
               onChange={handleChange}
               placeholder="Enter email"
               className="w-full p-2 border rounded"
+              required
             />
           </div>
         </div>
@@ -139,6 +136,7 @@ const UserManagment = () => {
               onChange={handleChange}
               placeholder="Enter password"
               className="w-full p-2 border rounded"
+              required
             />
           </div>
           <div className="w-full md:w-1/2">
@@ -154,7 +152,6 @@ const UserManagment = () => {
             </select>
           </div>
         </div>
-
         <button
           type="submit"
           className="w-full bg-green-600 text-white py-2 rounded cursor-pointer hover:bg-green-700"

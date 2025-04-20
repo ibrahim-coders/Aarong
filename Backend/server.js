@@ -35,15 +35,6 @@ app.get('/', (req, res) => {
   res.send('Welcome To Aarong API');
 });
 
-const getCart = async (userId, guestId) => {
-  if (userId) {
-    return await Cart.findOne({ user: userId });
-  } else if (guestId) {
-    return await Cart.findOne({ guestId });
-  }
-  return null;
-};
-
 // Get all products with optional query filters
 app.get('/products', async (req, res) => {
   try {
@@ -191,7 +182,7 @@ app.use('/api/upload', uploadeRouter);
 
 // ✅ Admin Routes
 app.use('/api/admin/users', adminRouter);
-app.use('/api/admin/products', productsAdminRouter);
+app.use('/api/admin', productsAdminRouter);
 
 // Server start
 app.listen(PORT, () => {
