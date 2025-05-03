@@ -22,14 +22,14 @@ const app = express();
 
 // Middleware
 app.use(express.json());
-app.use(cors({ origin: 'http://localhost:5173' }));
+app.use(cors({ origin: 'https://aarong-w1at.vercel.app' }));
 
 // Port
 const PORT = process.env.PORT || 9000;
 
 // ✅ Connect to MongoDB
 connectDB();
-// products;
+
 // Root route
 app.get('/', (req, res) => {
   res.send('Welcome To Aarong API');
