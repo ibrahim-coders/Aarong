@@ -46,7 +46,10 @@ const NewArrivals = () => {
   }, [newArrivals]);
 
   return (
-    <div ref={glideRef} className="glide-01 relative w-full">
+    <div
+      ref={glideRef}
+      className="glide-01 relative w-full px-4 sm:px-6 lg:px-8"
+    >
       {/* Section Heading */}
       <div className="container mx-auto text-center py-10">
         <h2 className="text-3xl font-bold mb-4">Explore New Arrivals</h2>
@@ -60,15 +63,20 @@ const NewArrivals = () => {
       <div className="overflow-hidden" data-glide-el="track">
         <ul className="relative flex w-full overflow-hidden p-0">
           {newArrivals.map(product => (
-            <li key={product._id} className="relative mx-2">
-              <div className="h-[500px] items-center">
+            <li
+              key={product._id}
+              className="relative mx-2 bg-white rounded-lg overflow-hidden"
+              style={{ minHeight: '420px', maxHeight: '420px' }}
+            >
+              <div className="w-full h-[400px] flex items-center justify-center">
                 <img
                   src={product.images?.[0]?.url}
                   alt={product.name || 'No name'}
-                  className="w-full h-full object-contain    rounded-md"
+                  loading="lazy"
+                  className="w-full h-full object-cover rounded-md"
                 />
               </div>
-              <div className="absolute bottom-0 left-0 right-0 bg-black/50 text-white p-4 rounded-b-lg">
+              <div className="absolute bottom-0 left-0 right-0 bg-black/60 backdrop-blur-sm text-white p-4 rounded-b-lg">
                 <Link to={`/product/${product._id}`} className="block">
                   <h4 className="font-medium">{product.name}</h4>
                   <p className="mt-1">${product.price}</p>
@@ -81,20 +89,20 @@ const NewArrivals = () => {
 
       {/* Navigation Controls */}
       <div
-        className="absolute left-0 mt-20 md:top-[70px] flex w-full items-center justify-end px-4 space-x-4 md:mt-10"
+        className="absolute top-1/2 -translate-y-1/2 left-0 right-0 flex justify-between px-4"
         data-glide-el="controls"
       >
         <button
-          className="h-12 w-12 flex items-center justify-center rounded-md border bg-white shadow-md text-gray-700 hover:bg-gray-100"
+          className="h-12 w-12 flex items-center justify-center rounded-md border bg-white shadow-md text-gray-700 hover:bg-gray-100 cursor-pointer"
           data-glide-dir="<"
         >
-          <FiChevronLeft className="text-2xl cursor-pointer" />
+          <FiChevronLeft className="text-2xl " />
         </button>
         <button
-          className="h-12 w-12 flex items-center justify-center rounded-md border bg-white shadow-md text-gray-700 hover:bg-gray-100"
+          className="h-12 w-12 flex items-center justify-center rounded-md border bg-white shadow-md text-gray-700 hover:bg-gray-100 cursor-pointer"
           data-glide-dir=">"
         >
-          <FiChevronRight className="text-2xl cursor-pointer" />
+          <FiChevronRight className="text-2xl " />
         </button>
       </div>
     </div>

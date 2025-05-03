@@ -96,7 +96,7 @@ const ProductDetails = ({ productId }) => {
                 <img
                   src={mainImage}
                   alt="Main Product"
-                  className="w-full  h-full object-center rounded-lg"
+                  className="w-full h-full object-cover rounded-md"
                 />
               </div>
 
@@ -107,7 +107,7 @@ const ProductDetails = ({ productId }) => {
                     key={index}
                     src={image?.url}
                     alt="Product Thumbnail"
-                    className="w-20 h-20 object-cover rounded-md cursor-pointer border"
+                    className="w-20 h-20 object-center object-contain rounded-md cursor-pointer border"
                     onClick={() => setMainImage(image?.url)}
                   />
                 ))}
