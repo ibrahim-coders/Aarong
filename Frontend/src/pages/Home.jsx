@@ -46,7 +46,7 @@ const Home = () => {
       <NewArrivals />
 
       <div className="mt-10">
-        <header>
+        <header className="px-4">
           <h2 className="text-xl font-bold text-gray-900 sm:text-3xl">
             Product Collection
           </h2>
@@ -58,9 +58,10 @@ const Home = () => {
           )} */}
 
           <p className="mt-4 max-w-md text-gray-500">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Itaque
-            praesentium cumque iure dicta incidunt est ipsam, officia dolor
-            fugit natus?
+            Product collections can reflect product categories or groups used in
+            the user’s online store or be based on other filters, such as price
+            or metadata. Similar to customer segments, product collections can
+            be either static
           </p>
         </header>
 

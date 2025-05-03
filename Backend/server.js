@@ -29,7 +29,7 @@ const PORT = process.env.PORT || 9000;
 
 // ✅ Connect to MongoDB
 connectDB();
-
+// products;
 // Root route
 app.get('/', (req, res) => {
   res.send('Welcome To Aarong API');
@@ -150,7 +150,7 @@ app.get('/products/:id', async (req, res) => {
   }
 });
 
-// Get similar products based on gender and category (excluding current product)
+// Get similar products based on gender and category
 app.get('/products/similar/:id', async (req, res) => {
   const { id } = req.params;
   try {
